@@ -1,2 +1,3 @@
-DB1-COLL1,COLL2,COLL3
-DB2-COLL1
+DBNAME;PORT;AUTH; ... # row 1 DB settings 
+COLL1;COLL2;COLL3; ... # row 2 collections 
+{obj1:type,obj2:type, ... };{};{}; ... # row 3 collection schemas

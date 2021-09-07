@@ -1,0 +1,20 @@
+{
+  "name": "servicechef",
+  "version": "1.0.0",
+  "description": "tools for servicechef",
+  "main": "saltrounds.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "saltrounds": "node saltrounds.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jcvita/ServiceChef.git"
+  },
+  "author": "Joseph Vita",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jcvita/ServiceChef/issues"
+  },
+  "homepage": "https://github.com/Jcvita/ServiceChef#readme"
+}
