@@ -158,7 +158,7 @@ createCluster() {
     fi
 
     #get the first file in the directory subnets. chop the last 5 characters off
-    SUBNET_FILE=$(ls subnets | head -n 1 | cut -c 1-5)
+    SUBNET_FILE=$(ls $INVENTORY_DIR/$INVENTORY_ITEM/subnets | head -n 1 | cut -c 1-5)
     SUBNET="10.0.$SUBNET_FILE"
 
     cd $CLUSTERS_DIR
