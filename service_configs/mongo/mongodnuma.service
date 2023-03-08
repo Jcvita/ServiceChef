@@ -28,3 +28,6 @@ TasksAccounting=false
 
 # Recommended limits for mongod as specified in
 # https://docs.mongodb.com/manual/reference/ulimit/#recommended-ulimit-settings
+
+[Install]
+WantedBy=multi-user.target

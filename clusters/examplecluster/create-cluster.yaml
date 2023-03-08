@@ -1,0 +1,43 @@
+---
+- name: Create LXC group
+  hosts: juicebox
+  gather_facts: false
+  vars:
+    subnet: 10.0.0
+    ubuntu_template: ubuntu-18.04.tar.gz
+    centos_template: centos-7.tar.gz
+    group_name: my-group
+
+  tasks:
+  - name: Create new Linux Bridge interface
+    proxmox:
+      api_user: root@pam
+      api_password: mypassword
+      api_host: myproxmoxhost
+      api_port: 8006
+      node: myproxmoxnode
+      vmid: 0
+      state: present
+      type: bridge
+      bridge: "{{ group_name }}"
+    register: bridge_result
+    
+  - name: Create Ubuntu container
+    proxmox_lxc:
+      api_user: root@pam
+      api_password: "{{ lookup('env', 'PM_PASS') }}"
+      api_host: "{{ lookup('env', 'PM_API') }}"
+      name: "{{ group_name }}-ubuntu-01"
+      state: started
+      ostemplate: "{{ ubuntu_template }}"
+      net0: name=eth0,bridge=vmbr0,ip={{ subnet }}.1/24,gw={{ subnet }}.254
+
+  - name: Create CentOS container
+    proxmox_lxc:
+      api_user: root@pam
+      api_password: "{{ lookup('env', 'PM_PASS') }}"
+      api_host: "{{ lookup('env', 'PM_API') }}"
+      name: "{{ group_name }}-centos-01"
+      state: started
+      ostemplate: "{{ centos_template }}"
+      net0: name=eth0,bridge={{ group_name }},ip={{ subnet }}.2/24,gw={{ subnet }}.254
