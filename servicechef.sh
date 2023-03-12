@@ -167,6 +167,7 @@ createCluster() {
 
 
     # TODO take input to loop through templates, appending new create lxc container operations for each desired template
+    # each template input will be a vars_files file denoting the template
     CREATECLUSTERYAML="---
 - name: Create LXC containers in separate subnets
   hosts: $INVENTORY_ITEM
@@ -207,9 +208,17 @@ createCluster() {
       loop: \"{{ container_templates }}\"
       when: bridge_result.changed == True
 
-    - name: Create LXC containers
-      include_role:
-        name: create_container
-      loop: \"{{ container_groups }}\"
+    - name: Assign Linux Bridge interface to containers
+      proxmox:
+        api_user: {{ PROX_USER }}
+        api_password: {{ PROX_PASS }}
+        api_host: {{ PROX_HOST }}
+        api_port: {{ PROX_PORT }}
+        node: {{ PROX_NODE }}
+        vmid: \"{{ item.0 }}\"
+        state: present
+        netif: \"net0=bridge={{ subnet_name }},hwaddr={{ item.1 }}\"
+      with_indexed_items: \"{{ container_templates }}\"
+      when: bridge_result.changed == True
 "
 }
